@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn';
 import User from './pages/User';
 import Header from './containers/Header';
 import Footer from './containers/Footer';
+import './'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
