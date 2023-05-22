@@ -1,10 +1,10 @@
-import '../style/footer.css'
+import '../index.css'
 
 function Footer() {
     return (
-        <div className='footer_wrapper'>
-            <p className='footer_text'>Copyright 2020 Argent Bank</p>
-        </div>  
+        <footer className="footer">
+            <p className="footer-text">Copyright 2020 Argent Bank</p>
+        </footer> 
     )
 }
 

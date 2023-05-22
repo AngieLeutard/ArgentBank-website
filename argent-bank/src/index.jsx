@@ -11,17 +11,22 @@ import Header from './containers/Header';
 import Footer from './containers/Footer';
 import './'
 
+import store from './redux/store'
+import { Provider } from 'react-redux'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-      <Router>
-        <Header />
-            <Routes>
-                <Route path="/home" element={<Home />} exact />
-                <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/user" element={<User />} />
-            </Routes>
-        <Footer />
-    </Router>
-    </React.StrictMode>
+    <Provider store={store}>
+        <React.StrictMode>
+            <Router>
+                <Header />
+                    <Routes>
+                        <Route path="" element={<Home />} exact />
+                        <Route path="/sign-in" element={<SignIn />} />
+                        <Route path="/user" element={<User />} />
+                    </Routes>
+                <Footer />
+            </Router>
+        </React.StrictMode>
+    </Provider>
 );
