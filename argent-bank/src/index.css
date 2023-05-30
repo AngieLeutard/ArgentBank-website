@@ -187,6 +187,13 @@ body {
   font-size: 5rem;
 }
 
+.errorMessage {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	color: red;
+	font-size: 13px;
+}
+
 .input-remember {
   display: flex;
 }
