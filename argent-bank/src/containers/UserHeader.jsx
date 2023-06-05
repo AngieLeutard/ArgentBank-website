@@ -1,9 +1,18 @@
 import { Link } from 'react-router-dom'; 
-// import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+
 import argentBankLogo from '../assets/argentBankLogo.png';
 import '../../src/index.css';
 
-export const UserHeader = (name) => {
+export const UserHeader = () => {
+
+    const dispatch = useDispatch()
+
+    const clearToken = () => {
+        dispatch({type: 'LOGOUT'});
+        window.location.href = 'http://localhost:3000/sign-in';  
+      };
+
     return (
         <nav className="main-nav">
             <Link className="main-nav-logo" to="/">
@@ -14,9 +23,12 @@ export const UserHeader = (name) => {
                 <Link className="main-nav-item" to="/user">
                     <i className="fa fa-user-circle"></i>
                     salut
-                    {/* { name } */}
+                    {/* { userName } */}
                 </Link>
-                <Link className="main-nav-item" to="/">
+                <Link 
+                    className="main-nav-item"
+                    onClick={clearToken}
+                >
                     <i className="fa fa-sign-out"></i>
                     Sign Out
                 </Link>
@@ -24,9 +36,5 @@ export const UserHeader = (name) => {
         </nav>
     )
 }
-
-// UserHeader.propTypes = {
-//     name: PropTypes.string,
-// }
 
 export default UserHeader

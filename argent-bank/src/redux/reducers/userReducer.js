@@ -74,9 +74,11 @@ const userSlice = createSlice ({
             state.status = "error"
             state.error = action.payload
         })
-        // .addCase(getUserInfos.fulfilled, (state, action) => {
-        //     // state.user = { firstName: action.payload.user.firstName }
-        // })
+        .addCase('LOGOUT', (state, action) => {
+            state.user = { email: '', token: '' }
+            state.status = 'idle'
+            state.error = ''
+        })
     }
 })
 
