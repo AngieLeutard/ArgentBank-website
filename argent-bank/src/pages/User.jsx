@@ -1,6 +1,7 @@
 import '../index.css';
-
-import Account from '../components/Account'
+import Account from '../components/Account';
+import UserHeader from '../containers/UserHeader';
+import EditNameSection from '../containers/EditNameSection';
 
 const AccountsData = [
     {
@@ -21,24 +22,28 @@ const AccountsData = [
 ]
 
 function User() {
+
   return (
-    <div className="user_container">
-      <main className="main bg-dark">
-        <div className="header">
-          <h1>Welcome back<br />Tony Jarvis!</h1>
-          <button className="edit-button">Edit Name</button>
-        </div>
-        <h2 className="sr-only">Accounts</h2>
-          { AccountsData.map(account => (
-            <Account 
-              key= { account.title }
-              title= { account.title }
-              amount= { account.amount }
-              description= { account.description }
-            />
-          ))}
-    </main>
-    </div>
+    <>
+      <UserHeader />
+      <div className="user_container">
+        <main className="main bg-dark">
+          <div className="header">
+            <EditNameSection />
+          </div>
+          <h2 className="sr-only">Accounts</h2>
+            { AccountsData.map(account => (
+              <Account 
+                key= { account.title }
+                title= { account.title }
+                amount= { account.amount }
+                description= { account.description }
+              />
+            ))}
+        </main>
+      </div>
+    </>
+    
   );
 }
   

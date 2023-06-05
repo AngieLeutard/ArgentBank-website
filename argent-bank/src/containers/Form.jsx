@@ -36,6 +36,9 @@ function Form() {
                     (e) => {
                         e.preventDefault()
                         dispatch(userLogIn({ email:email, password:password }))
+                        if (status !== 'error'){
+                            window.location.href = 'http://localhost:3000/user';  
+                        }
                     }}>
                 Sign In
             </button>

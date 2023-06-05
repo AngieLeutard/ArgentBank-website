@@ -38,6 +38,28 @@ export const userLogIn = createAsyncThunk(
     }
 )
 
+export const getUserInfos = createAsyncThunk(
+    'user/getUserInfos',
+    async (thunkApi) => {
+        const state = thunkApi.getState()
+        const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+            method: 'POST',
+            headers: {
+                'Authorization' : `Bearer ${state.user.user.token}`,
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+        }).then(res => {
+            if (res.ok) {
+                console.log(res)
+                return res.json()
+            } else {
+                window.location.href = 'http://localhost:3000/sign-in';
+            }             
+        })
+        return response        
+        }
+)
+
 const userSlice = createSlice ({
     name: 'user',
     initialState,
@@ -47,12 +69,14 @@ const userSlice = createSlice ({
             state.user = { email: action.payload.email, token: action.payload.data.body.token }
             state.status = "succes"
             state.error = "" 
-            window.location.href = 'http://localhost:3000/user';      
         })
         .addCase(userLogIn.rejected, (state, action) => {
             state.status = "error"
             state.error = action.payload
         })
+        // .addCase(getUserInfos.fulfilled, (state, action) => {
+        //     // state.user = { firstName: action.payload.user.firstName }
+        // })
     }
 })
 
