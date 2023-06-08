@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux'
+
 
 const initialState = {
     user: {
         email:'',
-        token:''
+        token:'',
+        password: '',
+        firstName: '',
+        lastName: '',
+        userName: ''
     },
     status: 'idle',
     error: '',
@@ -22,7 +28,6 @@ export const userLogIn = createAsyncThunk(
                 body: JSON.stringify({ email, password })
             }).then(res => {
                 if (res.ok) {
-                    console.log(res)
                     return res.json()
                 } else {
                     throw new Error("Informations incorrectes !")
@@ -30,7 +35,7 @@ export const userLogIn = createAsyncThunk(
             }).then(data => {
                 return data
             })
-            return { email: email, data: response }            
+            return { email: email, password: password, data: response }            
         }catch(error){
             console.log(error.message)
             return thunkApi.rejectWithValue(error.message)
@@ -41,20 +46,37 @@ export const userLogIn = createAsyncThunk(
 export const getUserInfos = createAsyncThunk(
     'user/getUserInfos',
     async (thunkApi) => {
-        const state = thunkApi.getState()
+        const token = useSelector(state => state.user.token)
         const response = await fetch("http://localhost:3001/api/v1/user/profile", {
             method: 'POST',
             headers: {
-                'Authorization' : `Bearer ${state.user.user.token}`,
+                'Authorization' : `Bearer ${token}`,
                 'Content-Type': 'application/json;charset=utf-8'
             },
         }).then(res => {
             if (res.ok) {
                 console.log(res)
                 return res.json()
-            } else {
-                window.location.href = 'http://localhost:3000/sign-in';
-            }             
+            }            
+        })
+        return response        
+    }
+)
+
+export const changeUserName = createAsyncThunk(
+    'user/changeUserName',
+    async ({ userName }, thunkApi) => {
+        const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ userName })
+        }).then(res => {
+            if (res.ok) {
+                console.log(res)
+                return res.json()
+            }            
         })
         return response        
         }
@@ -66,7 +88,7 @@ const userSlice = createSlice ({
     reducers: {},
     extraReducers(builder) {
         builder.addCase(userLogIn.fulfilled, (state, action) => {
-            state.user = { email: action.payload.email, token: action.payload.data.body.token }
+            state.user = { email: action.payload.email, password: action.payload.password, token: action.payload.data.body.token }
             state.status = "succes"
             state.error = "" 
         })
@@ -74,8 +96,17 @@ const userSlice = createSlice ({
             state.status = "error"
             state.error = action.payload
         })
-        .addCase('LOGOUT', (state, action) => {
-            state.user = { email: '', token: '' }
+        .addCase(getUserInfos.fulfilled, (state, action) => {
+            state.user = { email: action.payload.email, password: action.payload.password, firstName: action.payload.firstName, lastName: action.payload.lastName, userName: action.payload.userName  }
+            state.status = "succes"
+            state.error = ""
+        })
+        .addCase(getUserInfos.rejected, (state, action) => {
+            state.status = "error"
+            state.error = action.payload
+        })
+        .addCase('LOGOUT', (state) => {
+            state.user = { token: '' }
             state.status = 'idle'
             state.error = ''
         })

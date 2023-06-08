@@ -1,20 +1,23 @@
 import {useState} from 'react';
+import { useSelector } from 'react-redux';
+
 
 export default function App() {
   const [isActive, setIsActive] = useState(false);
   const [titleText, setTitleText] = useState('Welcome back');
-  const [userFirstName, setUserFirstName] = useState('');
-  const [userLastName, setUserLastName] = useState('');
   const [point, setPoint] = useState('!');
-  const [userName, setUserName] = useState('');
+
+  const userName = useSelector(state => state.user.userName);
+  const userFirstName = useSelector(state => state.user.firstName);
+  const userLastName = useSelector(state => state.user.lastName)
+
+
 
 
 
   const handleClick = () => {
     setIsActive(current => !current);
     setTitleText('Edit user name');
-    setUserFirstName('');
-    setUserLastName('');
     setPoint('');
   };
 
@@ -29,7 +32,15 @@ export default function App() {
             >
                 <div className="userName_input">
                     <label htmlFor="userName">User Name</label>
-                    <input type="text" id="userName" onChange={(e) => setUserName(e.target.value)}/>
+                    <input type="text" id="userName" />
+                </div>
+                <div className="userName_input">
+                    <label htmlFor="firstName">First Name</label>
+                    <input type="text" id="firstName" value={userFirstName}/>
+                </div>
+                <div className="userName_input">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input type="text" id="LastName" value={userLastName}/>
                 </div>
                 <div className='userNameButton_wrapper'>
                     <button 

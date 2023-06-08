@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLogIn } from '../redux/reducers/userReducer'
+import { userLogIn, getUserInfos } from '../redux/reducers/userReducer'
 
 
 function Form() {
@@ -11,6 +11,17 @@ function Form() {
     const dispatch = useDispatch()
     const status = useSelector(state => state.user.status)
     const error = useSelector(state => state.user.error)
+
+    const logInSubmit = (e) => {
+        e.preventDefault()
+        dispatch(userLogIn({ email:email, password:password })).then(() => {
+            dispatch(getUserInfos())
+        })
+        if (status !== 'error'){
+            console.log('yes')
+            // window.location.href = 'http://localhost:3000/user';  
+        }
+    }
 
     return (
         <form id="logIn">
@@ -32,14 +43,7 @@ function Form() {
             <button 
                 href="./user.html" 
                 className="sign-in-button" 
-                onClick={
-                    (e) => {
-                        e.preventDefault()
-                        dispatch(userLogIn({ email:email, password:password }))
-                        if (status !== 'error'){
-                            window.location.href = 'http://localhost:3000/user';  
-                        }
-                    }}>
+                onClick= {logInSubmit}>
                 Sign In
             </button>
         </ form>

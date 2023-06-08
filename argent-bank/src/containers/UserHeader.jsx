@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'; 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import argentBankLogo from '../assets/argentBankLogo.png';
 import '../../src/index.css';
@@ -7,10 +7,12 @@ import '../../src/index.css';
 export const UserHeader = () => {
 
     const dispatch = useDispatch()
+    const userName = useSelector(state => state.user.userName)
+
 
     const clearToken = () => {
         dispatch({type: 'LOGOUT'});
-        window.location.href = 'http://localhost:3000/sign-in';  
+        // window.location.href = 'http://localhost:3000/sign-in';  
       };
 
     return (
@@ -22,8 +24,7 @@ export const UserHeader = () => {
             <div>
                 <Link className="main-nav-item" to="/user">
                     <i className="fa fa-user-circle"></i>
-                    salut
-                    {/* { userName } */}
+                    { userName }
                 </Link>
                 <Link 
                     className="main-nav-item"
