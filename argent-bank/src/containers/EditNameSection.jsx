@@ -1,29 +1,39 @@
-import {useState} from 'react';
-import { useSelector } from 'react-redux';
+import {useEffect, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { editUserName } from '../redux/reducers/userReducer';
 
 
 export default function App() {
-  const [isActive, setIsActive] = useState(false);
-  const [titleText, setTitleText] = useState('Welcome back');
-  const [point, setPoint] = useState('!');
 
-  const userName = useSelector(state => state.user.userName);
-  const userFirstName = useSelector(state => state.user.firstName);
-  const userLastName = useSelector(state => state.user.lastName)
-
+    const dispatch = useDispatch();
+    const initialUserName = useSelector(state => state.user.user.userName);
+    const userFirstName = useSelector(state => state.user.user.firstName);
+    const userLastName = useSelector(state => state.user.user.lastName);
+    const token = useSelector(state => state.user.user.token);
 
 
+    const [isActive, setIsActive] = useState(false);
+    const [titleText, setTitleText] = useState('Welcome back');
+    const [point, setPoint] = useState('!');
+    const [userName, setUserName] = useState('');
+    const [firstName, setFirstName] = useState(userFirstName);
+    const [lastName, setLastName] = useState(userLastName);
 
+    const handleClick = () => {
+        setIsActive(current => !current);
+        setTitleText('Edit user name');
+        setFirstName('');
+        setLastName('');
+        setPoint('');
+    };
 
-  const handleClick = () => {
-    setIsActive(current => !current);
-    setTitleText('Edit user name');
-    setPoint('');
-  };
+    useEffect(() => {
+        setUserName(initialUserName)
+    },[initialUserName])
 
   return (
     <div>
-        <h1 className='userEdit_title' >{titleText}<br/>{userFirstName} {userLastName} {point}</h1>
+        <h1 className='userEdit_title' >{titleText}<br/>{firstName} {lastName} {point}</h1>
         <div className='userName'>
             <form 
                 className='userName_form' 
@@ -32,30 +42,28 @@ export default function App() {
             >
                 <div className="userName_input">
                     <label htmlFor="userName">User Name</label>
-                    <input type="text" id="userName" />
+                    <input type="text" id="userName" value={userName} onChange={(e) => setUserName(e.target.value)}/>
                 </div>
                 <div className="userName_input">
                     <label htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" value={userFirstName}/>
+                    <input type="text" id="firstName" value={userFirstName} onChange={(e) => e.preventDefault()} disabled/>
                 </div>
                 <div className="userName_input">
                     <label htmlFor="lastName">Last Name</label>
-                    <input type="text" id="LastName" value={userLastName}/>
+                    <input type="text" id="LastName" value={userLastName} onChange={(e) => e.preventDefault()} disabled/>
                 </div>
                 <div className='userNameButton_wrapper'>
                     <button 
                         className="userName_button"
-                        disabled={!userName}>
+                        disabled={!userName}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            dispatch(editUserName({ userName:userName, token:token }))
+                        }}
+                    >
                         Save
                     </button>
-                    <button 
-                        className="userName_button" 
-                        onClick={
-                            (e) => {
-                                e.preventDefault()
-                            }}>
-                        Delete
-                    </button>
+                    <button className="userName_button">Delete</button>
                 </div>
             </ form>
         </div>

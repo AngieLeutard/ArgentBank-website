@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import '../index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLogIn, getUserInfos } from '../redux/reducers/userReducer'
+import { userLogIn } from '../redux/reducers/userReducer'
+import { useNavigate } from "react-router-dom";
+
 
 
 function Form() {
@@ -9,18 +11,12 @@ function Form() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch()
-    const status = useSelector(state => state.user.status)
-    const error = useSelector(state => state.user.error)
+    const status = useSelector((state) => state.user.status)
+    const error = useSelector((state) => state.user.error)
+    const navigate = useNavigate()
 
-    const logInSubmit = (e) => {
-        e.preventDefault()
-        dispatch(userLogIn({ email:email, password:password })).then(() => {
-            dispatch(getUserInfos())
-        })
-        if (status !== 'error'){
-            console.log('yes')
-            // window.location.href = 'http://localhost:3000/user';  
-        }
+    if (status === 'success'){
+        navigate('/user')
     }
 
     return (
@@ -43,7 +39,10 @@ function Form() {
             <button 
                 href="./user.html" 
                 className="sign-in-button" 
-                onClick= {logInSubmit}>
+                onClick={(e) => {
+                    e.preventDefault()
+                    dispatch(userLogIn({ email:email, password:password }))
+                }}>
                 Sign In
             </button>
         </ form>

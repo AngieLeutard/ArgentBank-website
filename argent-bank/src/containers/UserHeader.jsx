@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+
 
 import argentBankLogo from '../assets/argentBankLogo.png';
 import '../../src/index.css';
@@ -7,12 +9,13 @@ import '../../src/index.css';
 export const UserHeader = () => {
 
     const dispatch = useDispatch()
-    const userName = useSelector(state => state.user.userName)
+    const userName = useSelector(state => state.user.user.userName)
+    const navigate = useNavigate()
 
-
-    const clearToken = () => {
+    const clearToken = (e) => {
+        e.preventDefault()
         dispatch({type: 'LOGOUT'});
-        // window.location.href = 'http://localhost:3000/sign-in';  
+        navigate('/sign-in')
       };
 
     return (
@@ -22,7 +25,7 @@ export const UserHeader = () => {
                 <h1 className="sr-only">Argent Bank</h1>
             </Link>
             <div>
-                <Link className="main-nav-item" to="/user">
+                <Link className="main-nav-item" to="/user" >
                     <i className="fa fa-user-circle"></i>
                     { userName }
                 </Link>

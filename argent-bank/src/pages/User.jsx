@@ -2,6 +2,9 @@ import '../index.css';
 import Account from '../components/Account';
 import UserHeader from '../containers/UserHeader';
 import EditNameSection from '../containers/EditNameSection';
+import { useDispatch } from 'react-redux';
+import { getUserInfos } from '../redux/reducers/userReducer';
+import { useEffect } from 'react';
 
 const AccountsData = [
     {
