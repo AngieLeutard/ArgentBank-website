@@ -43,7 +43,7 @@ export const editUserName = createAsyncThunk(
     'user/editUserName',
     async ({ userName, token }, thunkApi) => {
         try{
-                await fetch("http://localhost:3001/api/v1/user/profile", {
+            const response = await fetch("http://localhost:3001/api/v1/user/profile", {
                 method: 'PUT',
                 headers: {
                     'Authorization' : `Bearer ${token}`,
@@ -52,9 +52,11 @@ export const editUserName = createAsyncThunk(
                 body: JSON.stringify({ userName })
             }).then(res => {
                 if (res.ok) {
+                    console.log(userName)
                     return res.json()
-                }           
-            })        
+                }         
+            })
+            return response
         }catch(error){
             return thunkApi.rejectWithValue(error.message)
         }
@@ -94,6 +96,11 @@ const userSlice = createSlice ({
             state.user = { token: '' }
             state.status = 'idle'
             state.error = ''
+        })
+        .addCase(editUserName.fulfilled, (state, action) => {
+            let user = state.user
+            user.userName = action.payload.body.userName
+            state.user = user
         })
     }
 })

@@ -10,6 +10,7 @@ export const UserHeader = () => {
 
     const dispatch = useDispatch()
     const userName = useSelector(state => state.user.user.userName)
+    console.log(userName)
     const navigate = useNavigate()
 
     const clearToken = (e) => {

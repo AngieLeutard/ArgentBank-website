@@ -56,8 +56,7 @@ export default function App() {
                     <button 
                         className="userName_button"
                         disabled={!userName}
-                        onClick={(e) => {
-                            e.preventDefault()
+                        onClick={() => {
                             dispatch(editUserName({ userName:userName, token:token }))
                         }}
                     >
