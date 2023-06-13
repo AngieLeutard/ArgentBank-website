@@ -5,14 +5,15 @@ import { userLogIn } from '../redux/reducers/userReducer'
 import { useNavigate } from "react-router-dom";
 
 
-
 function Form() {
 
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const dispatch = useDispatch()
+    const [password, setPassword] = useState('')  
+
     const status = useSelector((state) => state.user.status)
     const error = useSelector((state) => state.user.error)
+
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     if (status === 'success'){

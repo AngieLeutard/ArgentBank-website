@@ -27,6 +27,14 @@ export default function App() {
         setPoint('');
     };
 
+    const reverseClick = () => {
+        setIsActive(current => !current);
+        setTitleText('Welcome back');
+        setFirstName(userFirstName);
+        setLastName(userLastName);
+        setPoint('!');
+    };
+
     useEffect(() => {
         setUserName(initialUserName)
     },[initialUserName])
@@ -56,13 +64,23 @@ export default function App() {
                     <button 
                         className="userName_button"
                         disabled={!userName}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault()
                             dispatch(editUserName({ userName:userName, token:token }))
+                            dispatch(reverseClick)
                         }}
                     >
                         Save
                     </button>
-                    <button className="userName_button">Delete</button>
+                    <button 
+                        className="userName_button"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            dispatch(reverseClick)
+                        }}
+                    >
+                        Delete
+                    </button>
                 </div>
             </ form>
         </div>
