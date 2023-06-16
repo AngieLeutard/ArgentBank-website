@@ -118,7 +118,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/transactions/{accountId}:
+  /user/accounts/{accountId}/transactions:
     get:
       security:
         - Bearer: []
@@ -141,7 +141,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/transaction/{transactionId}:
+  /user/transactions/{transactionId}:
     put:
       security:
         - Bearer: []
