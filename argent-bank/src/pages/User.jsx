@@ -2,6 +2,9 @@ import '../index.css';
 import Account from '../components/Account';
 import UserHeader from '../containers/UserHeader';
 import EditNameSection from '../containers/EditNameSection';
+import SignIn from './SignIn';
+
+import { useSelector } from 'react-redux';
 
 const AccountsData = [
     {
@@ -22,6 +25,14 @@ const AccountsData = [
 ]
 
 function User() {
+
+  const token = useSelector(state => state.user.user.token);
+
+  if (token === ''){
+    return (
+      <SignIn/>
+    )
+  }
 
   return (
     <>

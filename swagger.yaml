@@ -261,6 +261,8 @@ definitions:
           properties:
             id:
               type: string
+            month:
+              type: string
             date:
               type: string
             description: 
